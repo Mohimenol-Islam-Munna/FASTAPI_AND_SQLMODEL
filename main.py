@@ -1,5 +1,8 @@
-from fastapi import FastAPI
+import json
 from enum import Enum
+from typing import Union
+from fastapi import FastAPI
+from pydantic import BaseModel
 
 # create  fastapi instance
 app = FastAPI(debug=True)
@@ -48,3 +51,17 @@ async def query_parameter(
         "start": start,
         "end": end,
     }
+
+
+# data modal
+class Product(BaseModel):
+    title: str
+    stock: int
+    price: float
+    isActive: bool = True
+    description: Union[str, None] = None
+
+
+@app.post("/path-with-request-body")
+def path_with_request_body(item: Product):
+    return {"message": "Product created successfully!", "data": item}
