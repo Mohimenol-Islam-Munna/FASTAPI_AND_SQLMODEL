@@ -73,3 +73,12 @@ def qp_and_string_validation(
     q: Annotated[Union[str, None], Query(max_length=10)] = None
 ):
     return {"message": "success", "param": q}
+
+
+# default with ellipsis
+@app.get("/default-with-ellipsis")
+def default_with_ellipsis(q: Union[str, None] = ...):
+    return {
+        "message": "success",
+        "param": q,
+    }
