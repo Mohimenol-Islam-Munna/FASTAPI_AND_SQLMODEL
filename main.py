@@ -1,8 +1,8 @@
 import json
 from enum import Enum
-from typing import Union
-from fastapi import FastAPI
+from fastapi import FastAPI, Query
 from pydantic import BaseModel
+from typing import Union, Annotated
 
 # create  fastapi instance
 app = FastAPI(debug=True)
@@ -65,3 +65,11 @@ class Product(BaseModel):
 @app.post("/path-with-request-body")
 def path_with_request_body(item: Product):
     return {"message": "Product created successfully!", "data": item}
+
+
+# Query parameter and string validation
+@app.get("/qp-and-string-validation")
+def qp_and_string_validation(
+    q: Annotated[Union[str, None], Query(max_length=10)] = None
+):
+    return {"message": "success", "param": q}
