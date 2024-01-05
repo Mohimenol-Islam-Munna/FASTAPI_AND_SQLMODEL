@@ -1,6 +1,6 @@
 import json
 from enum import Enum
-from fastapi import FastAPI, Query
+from fastapi import FastAPI, Query, Path
 from pydantic import BaseModel
 from typing import Union, Annotated
 
@@ -82,3 +82,9 @@ def default_with_ellipsis(q: Union[str, None] = ...):
         "message": "success",
         "param": q,
     }
+
+
+# path parameter and numeric validation
+@app.get("/path-parameter_and_number_validation/{id}")
+def path_parameter_and_number_validation(id: Annotated[int, Path(ge=10)]):
+    return {"message": "success", "id": id}
