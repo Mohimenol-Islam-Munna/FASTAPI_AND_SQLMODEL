@@ -32,3 +32,19 @@ def path_parameter(id: int):
 @app.get("/pre-defined-path-parameter/{path}")
 def pre_defined_path_parameter(path: ModelName):
     return {"message": "success", "param": path}
+
+
+# query parameter
+@app.get("/query_params")
+async def query_parameter(
+    required_param: bool,
+    start: int = 0,
+    end: int = 10,
+    is_active: bool = False,
+):
+    return {
+        "message": "success",
+        "isActive": is_active,
+        "start": start,
+        "end": end,
+    }
