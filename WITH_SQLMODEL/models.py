@@ -1,9 +1,8 @@
-from sqlmodel import Field
-from typing import Optional
-from database import SQLModel
+from sqlmodel import SQLModel, Field
 
 class Hero(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    name: str = Field(index=True)
-    secret_name: str
-    age: Optional[int] = Field(default=None, index=True)
+    id: int | None = Field(default=None, primary_key=True)
+    name: str = Field(default="")
+    secret_name: str = Field(default="")
+    age: int = Field(default=0)
+

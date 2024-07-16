@@ -1,8 +1,9 @@
 import json
 from enum import Enum
 from fastapi import FastAPI, Query, Path
-from pydantic import BaseModel
-from typing import Union, Annotated
+from pydantic import BaseModel, Field
+from typing import Union, Annotated, ClassVar
+from typing_extensions import Annotated
 
 # create  fastapi instance
 app = FastAPI(debug=True)
@@ -28,7 +29,7 @@ def path_parameter_order():
 
 @app.get("/path-parameter/{id}")
 def path_parameter(id: int):
-    print("path parameter function hitted")
+    print("path parameter function called")
     return {"message": "success", "id": id}
 
 
@@ -88,3 +89,34 @@ def default_with_ellipsis(q: Union[str, None] = ...):
 @app.get("/path-parameter_and_number_validation/{id}")
 def path_parameter_and_number_validation(id: Annotated[int, Path(ge=10)]):
     return {"message": "success", "id": id}
+
+
+
+class StudentModel(BaseModel):
+    id: int
+    name: str = Field(alias="username")
+    dept: Annotated[str | None, Field(default=None)]
+
+
+class User(BaseModel):
+    name: str = Field(repr=True)  
+    age: int = Field(repr=False)
+
+
+
+
+@app.get("/pydantic/{item}")
+def pydantic_item_route(item: int | None):
+
+    student = StudentModel(id=1, username = "munna")
+
+    print("student :", student.dept)
+
+    user = User(name='John', age=42)
+    print(user)
+
+    return {
+        "status": 200,
+        "message": f"Successfully validate",
+        "student": student
+    }
