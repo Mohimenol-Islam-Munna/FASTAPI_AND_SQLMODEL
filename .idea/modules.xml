@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/Fast_Api.iml" filepath="$PROJECT_DIR$/.idea/Fast_Api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/SQL_ALCHEMY.iml" filepath="$PROJECT_DIR$/.idea/SQL_ALCHEMY.iml" />
     </modules>
   </component>
 </project>

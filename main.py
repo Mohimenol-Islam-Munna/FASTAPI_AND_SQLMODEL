@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, status
+from fastapi import FastAPI, Query, status, Form, File, UploadFile
 from enum import Enum
 from pydantic import BaseModel, Field
 from typing import Annotated
@@ -217,9 +217,37 @@ async def http_status_code():
     }
 
 
+@app.post("/form-data", status_code=status.HTTP_201_CREATED)
+async def form_data(username: Annotated[str, Form(min_length=8)], password: Annotated[str | int, Form()]):
+    return {"username": username, "password": password}
 
 
+@app.post("/upload-file_with_file")
+async def upload_file(file: Annotated[bytes, File()]):
+    return {
+        "message": "file uploaded successfully",
+        "user_name": "name",
+        "file_length": len(file)
+    }
 
+
+@app.post("/upload-file_with_upload_file")
+async def upload_file(name: Annotated[str, Form()], file: UploadFile):
+    return {
+        "message": "file uploaded successfully",
+        "user_name": name,
+        "file_name": file.filename,
+        "file_size": file.size,
+        "file": file,
+    }
+
+
+@app.post("/files/")
+async def create_file(file: Annotated[bytes, File()], token: Annotated[str, Form()]):
+    return {
+        "file_size": len(file),
+        "token": token,
+    }
 
 
 
