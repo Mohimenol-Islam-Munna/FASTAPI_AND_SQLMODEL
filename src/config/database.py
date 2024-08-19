@@ -1,9 +1,7 @@
 from sqlmodel import SQLModel, create_engine
-from schemas import Hero
+from ..schemas import hero, product, movie
 
 sqlite_file_name = "./sqlite_db.db"
-
-print("sqlite_file_name", sqlite_file_name)
 
 sqlite_url = f"sqlite:///{sqlite_file_name}"
 

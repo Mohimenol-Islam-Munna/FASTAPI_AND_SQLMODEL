@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query, status, Form, File, UploadFile, APIRouter
 from typing import Annotated
-from validations import basic
+from ..validations import basic
 
 router = APIRouter(
     prefix="/basics",
