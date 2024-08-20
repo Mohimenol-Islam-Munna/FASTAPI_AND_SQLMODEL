@@ -3,7 +3,7 @@ from sqlmodel import Session
 from ..schemas.product import Product
 from ..config.database import engine
 
-router = APIRouter(prefix="/product", tags=["products"], dependencies=[])
+router = APIRouter(prefix="/products", tags=["products"], dependencies=[])
 
 
 session = Session(engine)
