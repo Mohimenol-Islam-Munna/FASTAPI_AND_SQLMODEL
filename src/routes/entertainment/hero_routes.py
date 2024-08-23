@@ -27,7 +27,7 @@ class CreateHero(BaseModel):
     name: str
     secret_name: str
     age: int
-    movie_id: int
+    movie_id: int | None
 
 
 @router.post("/create")

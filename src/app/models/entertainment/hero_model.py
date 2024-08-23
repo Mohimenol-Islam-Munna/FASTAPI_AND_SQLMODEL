@@ -8,5 +8,5 @@ class HeroModel(SQLModel, table=True):
     name: str
     secret_name: str
     age: int = Field(default=None, ge=10)
-    movie_id: int | None = Field(default=None, foreign_key="movie.id")
+    movie_id: int | None = Field(default=None, foreign_key="moviemodel.id")
     movie: MovieModel | None = Relationship(back_populates="heros")

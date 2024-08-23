@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
 from ..routes.product import basic_routes
-
 from ..routes.entertainment import hero_routes
 from ..routes.product import product_routes
 
