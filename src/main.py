@@ -5,6 +5,7 @@ app = FastAPI()
 
 # best practice
 # if __name__ == '__main__':
-#     bootstrap(app)
+    # bootstrap(app)
+
 
 bootstrap(app)

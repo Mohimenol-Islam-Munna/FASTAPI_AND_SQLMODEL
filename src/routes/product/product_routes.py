@@ -1,13 +1,13 @@
 from fastapi import APIRouter, status
 from sqlmodel import Session
-from ...app.models.products.product_model import ProductModel
+from ...app.models.products.product_model import Product
 
-from ...config.database import engine
+from ...config.database import ENGINE
 
 router = APIRouter(prefix="/products", tags=["products"], dependencies=[])
 
 
-session = Session(engine)
+session = Session(ENGINE)
 
 
 @router.get("/info", status_code=status.HTTP_200_OK)
@@ -17,7 +17,7 @@ def info():
 
 @router.post("/create", status_code=status.HTTP_201_CREATED)
 def create_product():
-    product = ProductModel(title="Blue Shirt", price=500)
+    product = Product(title="Blue Shirt", price=500)
 
     session.add(product)
 

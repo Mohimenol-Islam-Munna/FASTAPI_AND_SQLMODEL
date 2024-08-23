@@ -3,9 +3,9 @@ from typing import Annotated
 from sqlmodel import Session, select
 from pydantic import BaseModel
 
-from ...app.models.entertainment.hero_model import HeroModel
-from ...app.models.entertainment.movie_model import MovieModel
-from ...config.database import engine
+from ...app.models.entertainment.hero_model import Hero
+from ...app.models.entertainment.movie_model import Movie
+from ...config.database import ENGINE
 
 router = APIRouter(
     prefix="/heros",
@@ -13,7 +13,7 @@ router = APIRouter(
     dependencies=[],
 )
 
-session = Session(engine)
+session = Session(ENGINE)
 
 
 @router.get("/info", status_code=status.HTTP_200_OK)
@@ -32,14 +32,14 @@ class CreateHero(BaseModel):
 
 @router.post("/create")
 def crete_hero(body: Annotated[CreateHero, Body()]):
-    hero = HeroModel(
+    hero = Hero(
         name=body.name,
         secret_name=body.secret_name,
         age=body.age,
         movie_id=body.movie_id,
     )
 
-    with Session(engine) as session:
+    with Session(ENGINE) as session:
         session.add(hero)
         session.commit()
 
@@ -52,7 +52,7 @@ def crete_hero(body: Annotated[CreateHero, Body()]):
 
 @router.get("/", status_code=status.HTTP_200_OK)
 def get_heros():
-    query = select(HeroModel)
+    query = select(Hero)
 
     results = session.exec(query).all()
 
@@ -63,7 +63,7 @@ def get_heros():
 
 @router.put("/update/{hero_id}/{movie_id}", status_code=status.HTTP_200_OK)
 def updateHero(hero_id: Annotated[int, Path()], movie_id: Annotated[int, Path()]):
-    query = select(HeroModel).where(HeroModel.id == hero_id)
+    query = select(Hero).where(Hero.id == hero_id)
 
     hero = session.exec(query).first()
 
@@ -78,7 +78,7 @@ def updateHero(hero_id: Annotated[int, Path()], movie_id: Annotated[int, Path()]
 
 @router.get("/get-by-name/{name}", status_code=status.HTTP_200_OK)
 def getHeroByName(name: Annotated[str, Path()]):
-    query = select(HeroModel).where(HeroModel.name == name)
+    query = select(Hero).where(Hero.name == name)
 
     result = session.exec(query).all()
 
@@ -87,7 +87,7 @@ def getHeroByName(name: Annotated[str, Path()]):
 
 @router.get("/id/{hero_id}", status_code=status.HTTP_200_OK)
 def getHeroById(hero_id: Annotated[int, Path()]):
-    query = select(HeroModel).where(HeroModel.id == hero_id)
+    query = select(Hero).where(Hero.id == hero_id)
 
     result = session.exec(query).first()
 
@@ -96,7 +96,7 @@ def getHeroById(hero_id: Annotated[int, Path()]):
 
 @router.get("/movies", status_code=status.HTTP_200_OK)
 def getMovies():
-    query = select(MovieModel)
+    query = select(Movie)
 
     result = session.exec(query).all()
 
@@ -112,9 +112,9 @@ class CreateMovie(BaseModel):
 @router.post("/movies", status_code=status.HTTP_201_CREATED)
 def createMovies(body: Annotated[CreateMovie, Body()]):
 
-    query = MovieModel(name=body.name, rating=body.rating, director=body.director)
+    query = Movie(name=body.name, rating=body.rating, director=body.director)
 
-    with Session(engine) as session:
+    with Session(ENGINE) as session:
         session.add(query)
         session.commit()
 
@@ -127,7 +127,7 @@ def createMovies(body: Annotated[CreateMovie, Body()]):
 
 @router.get("/heros-with-movies", status_code=status.HTTP_200_OK)
 def getHeroesWithMovies():
-    query = select(HeroModel, MovieModel).where(HeroModel.id == MovieModel.id)
+    query = select(Hero, Movie).where(Hero.id == Movie.id)
 
     results = session.exec(query)
 
@@ -139,7 +139,7 @@ def getHeroesWithMovies():
 
 @router.get("/heros-and-movies-join", status_code=status.HTTP_200_OK)
 def getHeroesWithMovies():
-    query = select(MovieModel, HeroModel).join(MovieModel)
+    query = select(Movie, Hero).join(Movie)
 
     results = session.exec(query)
 
@@ -151,7 +151,7 @@ def getHeroesWithMovies():
 
 @router.get("/heros-and-movies-left-join", status_code=status.HTTP_200_OK)
 def getHeroesAndMoviesLeftJoin():
-    query = select(HeroModel, MovieModel).join(MovieModel, isouter=True)
+    query = select(Hero, Movie).join(Movie, isouter=True)
 
     results = session.exec(query)
 
@@ -163,7 +163,7 @@ def getHeroesAndMoviesLeftJoin():
 
 @router.get("/heros-and-movies-right-join", status_code=status.HTTP_200_OK)
 def getHeroesAndMoviesRightJoin():
-    query = select(MovieModel, HeroModel).join(MovieModel, isouter=True)
+    query = select(Movie, Hero).join(Movie, isouter=True)
 
     results = session.exec(query).all()
 
