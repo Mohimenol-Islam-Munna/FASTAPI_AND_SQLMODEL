@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 from ...app.models.entertainment.hero_model import Hero
 from ...app.models.entertainment.movie_model import Movie
+from ...app.validations.dtos.response_dtos.movie_response_dtos import MovieResponseModel
 from ...config.database import ENGINE
 
 router = APIRouter(
@@ -55,8 +56,6 @@ def get_heros():
     query = select(Hero)
 
     results = session.exec(query).all()
-
-    print("results :", results)
 
     return {"message": "hero retrieved successfully!", "data": results}
 
@@ -122,6 +121,23 @@ def createMovies(body: Annotated[CreateMovie, Body()]):
         "status": status.HTTP_200_OK,
         "data": body,
         "message": "movie created successfully!",
+    }
+
+
+@router.get(
+    "/movies/{id}",
+    response_model=MovieResponseModel,
+    status_code=status.HTTP_200_OK,
+)
+async def movie_by_id(id: Annotated[int, Path()]):
+    query = select(Movie).where(Movie.id == id)
+
+    result = session.exec(query).one()
+
+    return {
+        "status": "success",
+        "message": "Data retrieved successfully",
+        "data": result,
     }
 
 
