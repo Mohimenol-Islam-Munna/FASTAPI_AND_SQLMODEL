@@ -33,12 +33,16 @@ class CreateHero(BaseModel):
 
 @router.post("/create")
 def crete_hero(body: Annotated[CreateHero, Body()]):
-    hero = Hero(
-        name=body.name,
-        secret_name=body.secret_name,
-        age=body.age,
-        movie_id=body.movie_id,
-    )
+    print("get body data:", body.model_dump())
+
+    # hero = Hero(
+    #     name=body.name,
+    #     secret_name=body.secret_name,
+    #     age=body.age,
+    #     movie_id=body.movie_id,
+    # )
+
+    hero = Hero(**body.model_dump())
 
     with Session(ENGINE) as session:
         session.add(hero)
