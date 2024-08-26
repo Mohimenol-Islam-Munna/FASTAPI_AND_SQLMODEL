@@ -47,7 +47,7 @@ def crete_hero(body: Annotated[CreateHero, Body()]):
     return {
         "status": status.HTTP_200_OK,
         "data": body,
-        "message": "hero created successfully!",
+        "message": "Hero created successfully!",
     }
 
 
