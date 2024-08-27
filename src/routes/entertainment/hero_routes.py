@@ -1,4 +1,4 @@
-from fastapi import APIRouter, status, Path, Body
+from fastapi import APIRouter, status, Path, Body, Depends
 from typing import Annotated
 from sqlmodel import Session, select
 from pydantic import BaseModel
@@ -7,6 +7,8 @@ from ...app.models.entertainment.hero_model import Hero
 from ...app.models.entertainment.movie_model import Movie
 from ...app.validations.dtos.response_dtos.movie_response_dtos import MovieResponseModel
 from ...config.database import ENGINE
+
+from ...app.providers import common
 
 router = APIRouter(
     prefix="/heros",
@@ -33,14 +35,7 @@ class CreateHero(BaseModel):
 
 @router.post("/create")
 def crete_hero(body: Annotated[CreateHero, Body()]):
-    print("get body data:", body.model_dump())
-
-    # hero = Hero(
-    #     name=body.name,
-    #     secret_name=body.secret_name,
-    #     age=body.age,
-    #     movie_id=body.movie_id,
-    # )
+    print("get body data: 1", body.model_dump())
 
     hero = Hero(**body.model_dump())
 
@@ -56,7 +51,10 @@ def crete_hero(body: Annotated[CreateHero, Body()]):
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def get_heros():
+def get_heros(common: common.QueryParamsDep):
+
+    print("common :", common)
+
     query = select(Hero)
 
     results = session.exec(query).all()
