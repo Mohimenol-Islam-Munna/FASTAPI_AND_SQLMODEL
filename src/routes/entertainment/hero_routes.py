@@ -51,7 +51,14 @@ def crete_hero(body: Annotated[CreateHero, Body()]):
     }
 
 
-@router.get("/", status_code=status.HTTP_200_OK, dependencies=[Depends(verify_token.verify_access_token), Depends(verify_token.verify_refresh_token)])
+@router.get(
+    "/",
+    status_code=status.HTTP_200_OK,
+    dependencies=[
+        Depends(verify_token.verify_access_token),
+        Depends(verify_token.verify_refresh_token),
+    ],
+)
 def get_heros(common: common.ClassBasedQueryParamsDep):
 
     print("common :::", common)
