@@ -9,6 +9,7 @@ from ...app.validations.dtos.response_dtos.movie_response_dtos import MovieRespo
 from ...config.database import ENGINE
 
 from ...app.providers import common
+from ...app.providers import verify_token
 
 router = APIRouter(
     prefix="/heros",
@@ -50,7 +51,7 @@ def crete_hero(body: Annotated[CreateHero, Body()]):
     }
 
 
-@router.get("/", status_code=status.HTTP_200_OK)
+@router.get("/", status_code=status.HTTP_200_OK, dependencies=[Depends(verify_token.verify_access_token), Depends(verify_token.verify_refresh_token)])
 def get_heros(common: common.ClassBasedQueryParamsDep):
 
     print("common :::", common)
