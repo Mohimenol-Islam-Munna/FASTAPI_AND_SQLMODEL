@@ -8,8 +8,8 @@ from ...app.models.entertainment.movie_model import Movie
 from ...app.validations.dtos.response_dtos.movie_response_dtos import MovieResponseModel
 from ...config.database import ENGINE
 
-from ...app.providers import common
-from ...app.providers import verify_token
+from ...app.dependencies import common
+from ...app.dependencies import verify_token
 
 router = APIRouter(
     prefix="/heros",
