@@ -1,8 +1,11 @@
-from sqlmodel import SQLModel, create_engine
-from ..schemas import hero, product, movie
+from sqlmodel import SQLModel, create_engine, Session
 
-sqlite_file_name = "./sqlite_db.db"
+SQLITE_FILE_NAME = "./sqlite_db.db"
 
-sqlite_url = f"sqlite:///{sqlite_file_name}"
+SQLITE_URL = f"sqlite:///{SQLITE_FILE_NAME}"
 
-engine = create_engine(sqlite_url, echo=True)
+ENGINE = create_engine(SQLITE_URL, echo=True)
+
+def create_session():
+    with Session(ENGINE) as session:
+        yield session
