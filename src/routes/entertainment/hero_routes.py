@@ -51,9 +51,9 @@ def crete_hero(body: Annotated[CreateHero, Body()]):
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-def get_heros(common: common.QueryParamsDep):
+def get_heros(common: common.ClassBasedQueryParamsDep):
 
-    print("common :", common)
+    print("common :::", common)
 
     query = select(Hero)
 
