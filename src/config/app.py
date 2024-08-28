@@ -14,7 +14,6 @@ def bootstrap() -> FastAPI:
     @app.middleware("http")
     async def http_middleware(request: Request, call_next):
         return await auth_middleware(request, call_next)
-    
 
     # Register Routers
     app.include_router(router)

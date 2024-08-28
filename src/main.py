@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+import uvicorn
 from .config.app import bootstrap
 
 app: FastAPI | None = None

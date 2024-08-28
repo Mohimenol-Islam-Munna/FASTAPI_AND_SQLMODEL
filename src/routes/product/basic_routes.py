@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Query, status, Form, File, UploadFile, APIRouter
 from typing import Annotated
-from ...app.validations.dtos.request_dtos import basic_dto
+from ...app.validations.request_models import basic_models
 
 router = APIRouter(
     prefix="/basics",
@@ -17,24 +17,22 @@ def home():
 
 @router.get("/home/{home_id}")
 async def path_param(home_id: int):
-    print("this is path params :", home_id)
-
     return {"status": "success", "message": f"this is path parameter : {home_id}"}
 
 
 @router.get("/enum/{enum_value}")
 def python_enum(enum_value: str):
-    if enum_value == basic_dto.PythonEnum.lamin:
+    if enum_value == basic_models.PythonEnum.lamin:
         return {
             "status": "success",
             "message": f"You entered {enum_value} in the path params",
         }
-    elif enum_value == basic_dto.PythonEnum.messi:
+    elif enum_value == basic_models.PythonEnum.messi:
         return {
             "status": "success",
             "message": f"You entered {enum_value} in the path params",
         }
-    elif enum_value == basic_dto.PythonEnum.pedri:
+    elif enum_value == basic_models.PythonEnum.pedri:
         return {
             "status": "success",
             "message": f"You entered {enum_value} in the path params",
@@ -52,12 +50,12 @@ def query_params(last: int | None = None, limit: int = 0):
 
 
 @router.post("/request-body")
-def request_body(body: basic_dto.RequestBody):
+def request_body(body: basic_models.RequestBody):
     return {"status": "success", "message": "Request with body", "data": body}
 
 
 @router.post("/optional-request-body")
-def optional_request_body(body: basic_dto.OptionalRequestBody):
+def optional_request_body(body: basic_models.OptionalRequestBody):
 
     body_dict = body.model_dump()
 
@@ -98,7 +96,7 @@ async def multiple_query_params_with_same_name(
 
 
 @router.post("/pydantic-model-validation")
-async def pydantic_model_validation(address: basic_dto.PydanticModelValidation):
+async def pydantic_model_validation(address: basic_models.PydanticModelValidation):
 
     return {
         "status": "success",
@@ -108,7 +106,7 @@ async def pydantic_model_validation(address: basic_dto.PydanticModelValidation):
 
 
 @router.post("/nested-pydantic-model")
-async def nested_pydantic_model(body: basic_dto.School):
+async def nested_pydantic_model(body: basic_models.School):
 
     return {
         "status": "success",
@@ -118,11 +116,9 @@ async def nested_pydantic_model(body: basic_dto.School):
 
 
 @router.post("/declare-request-example-data")
-async def declare_request_example_data(data: basic_dto.DeclareRequestExampleData):
+async def declare_request_example_data(data: basic_models.DeclareRequestExampleData):
 
     data_dict = data.model_dump()
-
-    print("data dict :", data_dict)
 
     return {
         "status": "Success",
@@ -132,7 +128,7 @@ async def declare_request_example_data(data: basic_dto.DeclareRequestExampleData
     }
 
 
-@router.post("/response-type", response_model=basic_dto.ResponseTypeModel)
+@router.post("/response-type", response_model=basic_models.ResponseTypeModel)
 async def response_type():
 
     data = {

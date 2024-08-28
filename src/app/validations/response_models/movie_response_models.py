@@ -1,6 +1,6 @@
 from pydantic import BaseModel
-from ....models.entertainment.hero_model import Hero
-from .base_response_dtos import BaseResponseModel
+from ...models.entertainment.hero_model import Hero
+from .base_response_models import BaseResponseModel
 
 class DataModel(BaseModel):
     id: int | None

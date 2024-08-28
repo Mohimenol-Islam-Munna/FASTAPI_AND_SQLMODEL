@@ -5,11 +5,11 @@ from pydantic import BaseModel
 
 from ...app.models.entertainment.hero_model import Hero
 from ...app.models.entertainment.movie_model import Movie
-from ...app.validations.dtos.response_dtos.movie_response_dtos import MovieResponseModel
+from ...app.validations.response_models.movie_response_models import MovieResponseModel
 from ...config.database import ENGINE
 
-from ...app.dependencies import common
-from ...app.dependencies import verify_token
+from ...app.dependencies import common_dependencies
+from ...app.dependencies import verify_token_dependencies
 
 router = APIRouter(
     prefix="/heros",
@@ -36,8 +36,6 @@ class CreateHero(BaseModel):
 
 @router.post("/create")
 def crete_hero(body: Annotated[CreateHero, Body()]):
-    print("get body data: 1", body.model_dump())
-
     hero = Hero(**body.model_dump())
 
     with Session(ENGINE) as session:
@@ -55,13 +53,11 @@ def crete_hero(body: Annotated[CreateHero, Body()]):
     "/",
     status_code=status.HTTP_200_OK,
     dependencies=[
-        Depends(verify_token.verify_access_token),
-        Depends(verify_token.verify_refresh_token),
+        Depends(verify_token_dependencies.verify_access_token),
+        Depends(verify_token_dependencies.verify_refresh_token),
     ],
 )
-def get_heros(common: common.ClassBasedQueryParamsDep):
-
-    print("common :::", common)
+def get_heros(common: common_dependencies.ClassBasedQueryParamsDep):
 
     query = select(Hero)
 

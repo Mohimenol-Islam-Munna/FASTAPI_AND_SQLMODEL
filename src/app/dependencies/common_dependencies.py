@@ -7,8 +7,6 @@ def query_params(
     limit: Annotated[int, Query()] = 100,
     skip: Annotated[int, Query()] = 0,
 ):
-    print("common parameters dependency called")
-
     return {"q": q, "limit": limit, "skip": skip}
 
 
@@ -19,7 +17,6 @@ class QueryParams:
         limit: Annotated[int, Query()] = 100,
         skip: Annotated[int, Query()] = 0,
     ) -> None:
-        print("Class base dependency")
 
         self.q = q
         self.limit = limit
