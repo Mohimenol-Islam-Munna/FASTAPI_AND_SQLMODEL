@@ -1,6 +1,8 @@
 from fastapi import Query, Depends
 from typing import Annotated
 
+from ...config.database import create_session
+
 
 def query_params(
     q: Annotated[str | None, Query()] = None,
@@ -26,3 +28,5 @@ class QueryParams:
 QueryParamsDep = Annotated[dict, Depends(query_params)]
 
 ClassBasedQueryParamsDep = Annotated[dict, Depends(QueryParams)]
+
+SessionDep = Depends(create_session)
