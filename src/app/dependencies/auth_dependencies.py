@@ -20,6 +20,9 @@ def get_password_hash(password):
 
 
 def verify_password(plain_password, hashed_password):
+    print("@@@@@@@ plain_password :", plain_password)
+    print("@@@@@@@ hashed_password :", hashed_password)
+    
     return pwd_context.verify(plain_password, hashed_password)
 
 
